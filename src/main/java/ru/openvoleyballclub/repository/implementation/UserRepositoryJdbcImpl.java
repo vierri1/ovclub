@@ -158,10 +158,4 @@ public class UserRepositoryJdbcImpl implements UserRepository {
         }
         return Collections.emptyList();
     }
-
-    private void userSetter(ResultSet resultSet, User user, String teamName) throws SQLException {
-        user.setId(resultSet.getInt("userId"));
-        user.setName(resultSet.getString("userName"));
-        user.setTeamName(teamName);
-    }
 }

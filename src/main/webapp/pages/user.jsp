@@ -8,6 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/fragments/header.jsp" %>
 
-<strong>Content:</strong>
+<strong>Страничка пользователя ${user.name}</strong>
+<c:if test="${user.captain}">
+    <br>Капитан команды ${user.teamName}
+</c:if>
+<p>Имя: ${user.name}</p>
+<p>Команда: ${user.teamName}</p>
 
 <%@include file="/fragments/footer.jsp" %>

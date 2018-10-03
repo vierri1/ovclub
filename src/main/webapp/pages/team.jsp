@@ -10,7 +10,7 @@
 <strong>Список участников команды ${team.name}:</strong>
 <ui>
     <c:forEach var="user" items="${team.users}">
-        <li>${user.name}</li>
+        <li><a href="/user?id=${user.id}">${user.name} ${user.captain ? "(cap)" : ""}</a></li>
     </c:forEach>
 
 </ui>

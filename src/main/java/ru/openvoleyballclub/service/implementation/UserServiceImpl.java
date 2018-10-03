@@ -20,8 +20,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(Integer id) {
-        return userRepository.get(id);
+    public User getById(String id) {
+        if (id != null) {
+            return userRepository.get(Integer.parseInt(id));
+        }
+        return null;
     }
 
     @Override

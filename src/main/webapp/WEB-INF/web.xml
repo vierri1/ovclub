@@ -28,4 +28,13 @@
         <servlet-name>team</servlet-name>
         <url-pattern>/team</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>user</servlet-name>
+        <servlet-class>ru.openvoleyballclub.controller.UserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>user</servlet-name>
+        <url-pattern>/user</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -25,7 +25,7 @@ VALUES ('Mr.Jenkins', true),
 
 INSERT INTO team (name)
 VALUES ('Destroyers'),
-       ('Lamers');
+       ('Geeks');
 
 INSERT INTO status (name)
 VALUES ('without team'),
