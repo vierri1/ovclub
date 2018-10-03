@@ -20,7 +20,9 @@
 </div><!-- .wrapper -->
 
 <footer class="footer">
-    <strong>footer</strong>
+    <p style="text-align: center; font-size: medium; color: #7e828f;">Открытая волейбольная лига.</p>
+    <p style="text-align: right; font-size: smaller; color: #7e828f;">Разработчик: Попонин Андрей Витальевич</p>
+    <p style="text-align: right; font-size: smaller; color: #7e828f;">2018 год.</p>
 </footer>
 <!-- .footer -->
 

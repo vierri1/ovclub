@@ -17,11 +17,11 @@ ALTER SEQUENCE usr_id_seq
 ALTER SEQUENCE usr_team_seq
   RESTART WITH 1;
 
-INSERT INTO usr (name, captain)
-VALUES ('Mr.Jenkins', true),
-       ('Mr.Travis', false),
-       ('Mrs.Spring', true),
-       ('Mr.Hibernate', false);
+INSERT INTO usr (name, captain, password, login)
+VALUES ('Mr.Jenkins', true, '123', 'jenkins'),
+       ('Mr.Travis', false, '456', 'travis'),
+       ('Mrs.Spring', true, '789', 'spring'),
+       ('Mr.Hibernate', false, '321', 'hibernate');
 
 INSERT INTO team (name)
 VALUES ('Destroyers'),

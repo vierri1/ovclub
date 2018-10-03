@@ -14,4 +14,6 @@ public interface UserService {
     boolean update(User user);
 
     boolean delete(Integer id);
+
+    User getAuthUser(String login, String password);
 }

@@ -13,12 +13,21 @@ CREATE SEQUENCE status_id_seq;
 CREATE SEQUENCE usr_team_seq;
 create table usr
 (
-  id      integer default nextval('usr_id_seq' :: regclass) not null
+  id       integer default nextval('usr_id_seq' :: regclass) not null
     constraint usr_pkey
     primary key,
-  name    varchar(30)                                       not null,
-  captain boolean
+  name     varchar(30)                                       not null,
+  captain  boolean,
+  password varchar(50)                                       not null,
+  login    varchar(40)                                       not null
 );
+
+alter table usr
+  owner to postgres;
+
+create unique index usr_login_uindex
+  on usr (login);
+
 
 alter table usr
   owner to postgres;

@@ -16,4 +16,6 @@ public interface UserRepository {
     List<User> getAll();
 
     List<User> getAllByTeamIdAndStatus(Integer teamId, String status);
+
+    User getAuthUser(String login, String password);
 }

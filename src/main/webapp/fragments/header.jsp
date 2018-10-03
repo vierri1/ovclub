@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title></title>
+    <title>Open Volleyball League</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <link href="../resources/style.css" rel="stylesheet">
@@ -21,7 +21,15 @@
 <div class="wrapper">
 
     <header class="header">
-        <strong>Header:</strong>
+        <p>OPEN VOLLEYBALL CLUB</p>
+        <c:if test="${logged_user != null}">
+            <p>Вы вошли как ${logged_user.name}</p>
+            <p style="text-align: right"><a href="/login?action=logout">Выйти</a></p>
+        </c:if>
+        <c:if test="${logged_user == null}">
+            <p>Приветсвую тебя, Гость!</p>
+            <p style="text-align: right"><a href="/login">Войти</a></p>
+        </c:if>
     </header><!-- .header-->
 
     <div class="middle">

@@ -46,4 +46,17 @@ public class UserServiceImpl implements UserService {
     public boolean delete(Integer id) {
         return userRepository.delete(id);
     }
+
+    @Override
+    public User getAuthUser(String login, String password) {
+        User user;
+        if (login != null && password != null) {
+            //TODO Сделать хеширование пароля
+            user = userRepository.getAuthUser(login, password);
+            if (user != null) {
+                return user;
+            }
+        }
+        return null;
+    }
 }
