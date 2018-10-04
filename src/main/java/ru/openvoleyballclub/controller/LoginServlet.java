@@ -33,7 +33,6 @@ public class LoginServlet extends HttpServlet {
         User user = userService.getAuthUser(login, password);
         if (user != null) {
             request.getSession().setAttribute("logged_user", user);
-            //TODO сделать страничку пользователя user_page
             response.sendRedirect("/logged/user_page");
         } else {
             request.getRequestDispatcher("/pages/login.jsp?err=error_login").forward(request, response);

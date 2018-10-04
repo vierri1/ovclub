@@ -8,8 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/fragments/header.jsp" %>
 
+<c:if test="${logged_user != null && (user.equals(logged_user) || user == null)}">
+    <c:set var="user" value="${logged_user}"/>
+    <strong>Ваша страничка:</strong>
+</c:if>
 
-<strong>Страничка пользователя ${user.name}</strong>
+<c:if test="${user != logged_user}">
+    <strong>Страничка пользователя ${user.name}</strong>
+</c:if>
 
 <c:if test="${user.captain}">
     <br>Капитан команды ${user.teamName}
