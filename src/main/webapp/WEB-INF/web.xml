@@ -4,6 +4,15 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <filter>
+        <filter-name>loggedFilter</filter-name>
+        <filter-class>ru.openvoleyballclub.controller.filter.LoggedFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loggedFilter</filter-name>
+        <url-pattern>/logged/*</url-pattern>
+    </filter-mapping>
+
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/resources/*</url-pattern>
@@ -18,7 +27,6 @@
         <servlet-name>index</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
 
     <servlet>
         <servlet-name>team</servlet-name>
@@ -39,15 +47,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>userPage</servlet-name>
-        <servlet-class>ru.openvoleyballclub.controller.LoggedUserServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>userPage</servlet-name>
-        <url-pattern>/logged/user_page</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>login</servlet-name>
         <servlet-class>ru.openvoleyballclub.controller.LoginServlet</servlet-class>
     </servlet>
@@ -56,13 +55,21 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
-    <filter>
-        <filter-name>loggedFilter</filter-name>
-        <filter-class>ru.openvoleyballclub.controller.filter.LoggedFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>loggedFilter</filter-name>
-        <url-pattern>/logged/*</url-pattern>
-    </filter-mapping>
+    <servlet>
+        <servlet-name>userEdit</servlet-name>
+        <servlet-class>ru.openvoleyballclub.controller.UserEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userEdit</servlet-name>
+        <url-pattern>/logged/user_edit</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>myPage</servlet-name>
+        <servlet-class>ru.openvoleyballclub.controller.MyPageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>myPage</servlet-name>
+        <url-pattern>/logged/my_page</url-pattern>
+    </servlet-mapping>
 </web-app>

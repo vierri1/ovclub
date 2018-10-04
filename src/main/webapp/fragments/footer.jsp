@@ -10,9 +10,9 @@
 </div><!-- .container-->
 
 <aside class="left-sidebar">
-    <h1>Список команд:</h1>
+    <h1 style="font-weight: bolder">Список команд:</h1>
     <c:forEach var="team" items="${teams}">
-        <br/> <a href="/team?id=${team.id}">${team.name}</a>
+        <a href="/team?id=${team.id}">${team.name}</a> <br>
     </c:forEach>
 </aside>
 </div><!-- .middle-->

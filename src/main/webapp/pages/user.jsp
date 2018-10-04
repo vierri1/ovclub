@@ -7,19 +7,23 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/fragments/header.jsp" %>
-
-<c:if test="${logged_user != null && (user.equals(logged_user) || user == null)}">
-    <c:set var="user" value="${logged_user}"/>
-    <strong>Ваша страничка:</strong>
+<c:set var="isLoggedUserPage" value="${false}"/>
+<c:if test="${sessionScope.logged_user != null && (user.equals(sessionScope.logged_user) || user == null)}">
+    <c:set var="user" value="${sessionScope.logged_user}"/>
+    <strong style="font-weight: bold">Моя страница:</strong>
+    <c:set var="isLoggedUserPage" value="${true}"/>
 </c:if>
 
-<c:if test="${user != logged_user}">
-    <strong>Страничка пользователя ${user.name}</strong>
+<c:if test="${user != sessionScope.logged_user}">
+    <a style="font-weight: bolder">Страничка пользователя ${user.name}</a>
 </c:if>
 
 <c:if test="${user.captain}">
-    <br>Капитан команды ${user.teamName}
+    <br>Капитан команды ${user.teamName}<br><br>
 </c:if>
-<p>Имя: ${user.name}</p>
-<p>Команда: ${user.teamName}</p>
+<p><a style="font-weight: bolder">Имя</a>: ${user.name}</p>
+<p><a style="font-weight: bolder">Команда: </a>${user.teamName}</p>
+<c:if test="${isLoggedUserPage == true}">
+    <a href="/logged/user_edit">Редактировать</a>
+</c:if>
 <%@include file="/fragments/footer.jsp" %>

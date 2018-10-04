@@ -68,14 +68,13 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
     @Override
     public boolean update(User user) {
-        String usrUpdateQuery = "UPDATE usr SET name=?, captain=?, login=?, password=? WHERE id=?";
+        String usrUpdateQuery = "UPDATE usr SET name=?, captain=?, login=? WHERE id=?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement usrUpdate = connection.prepareStatement(usrUpdateQuery)) {
             usrUpdate.setString(1, user.getName());
             usrUpdate.setBoolean(2, user.isCaptain());
-            usrUpdate.setInt(3, user.getId());
-            usrUpdate.setString(4, user.getLogin());
-            usrUpdate.setString(5, user.getPassword());
+            usrUpdate.setString(3, user.getLogin());
+            usrUpdate.setInt(4, user.getId());
             usrUpdate.execute();
             return true;
         } catch (SQLException e) {

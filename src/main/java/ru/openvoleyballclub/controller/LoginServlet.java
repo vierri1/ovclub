@@ -33,11 +33,10 @@ public class LoginServlet extends HttpServlet {
         User user = userService.getAuthUser(login, password);
         if (user != null) {
             request.getSession().setAttribute("logged_user", user);
-            response.sendRedirect("/logged/user_page");
+            response.sendRedirect("/user");
         } else {
             request.getRequestDispatcher("/pages/login.jsp?err=error_login").forward(request, response);
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 
         }
         if (request.getSession().getAttribute("logged_user") != null) {
-            response.sendRedirect("/logged/user_page");
+            response.sendRedirect("/user");
         } else {
             request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
         }

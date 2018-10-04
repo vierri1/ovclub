@@ -39,7 +39,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(User user) {
-        return userRepository.update(user);
+        if (user != null) {
+            return userRepository.update(user);
+        }
+        return false;
     }
 
     @Override

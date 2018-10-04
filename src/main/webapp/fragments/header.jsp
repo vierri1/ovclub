@@ -23,13 +23,14 @@
     <header class="header">
         <p>OPEN VOLLEYBALL CLUB</p>
         <c:if test="${logged_user != null}">
-            <p>Вы вошли как ${logged_user.name}</p>
-            <p style="text-align: right"><a href="/login?action=logout">Выйти</a></p>
+            <p>Вы вошли как <a href="/logged/my_page">${logged_user.name}</a></p>
+            <p style="width: 50%;text-align: right;float: right;"><a href="/login?action=logout">Выйти</a></p>
         </c:if>
         <c:if test="${logged_user == null}">
             <p>Приветсвую тебя, Гость!</p>
-            <p style="text-align: right"><a href="/login">Войти</a></p>
+            <p style="width: 50%;text-align: right;float: right;"><a href="/login">Войти</a></p>
         </c:if>
+        <%--<p style="width: 50%;display: inline-block;float: left;width: 50%;"><a href="/logged/my_page">Моя страница</a></p>--%>
     </header><!-- .header-->
 
     <div class="middle">
