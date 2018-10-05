@@ -1,19 +1,23 @@
 package ru.openvoleyballclub.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 public class Team extends BaseEntity {
 
     private List<User> users;
+    private User creator;
 
     public Team() {
     }
 
-    public Team(Integer id, String name, List<User> users) {
+    public Team(Integer id, String name, LocalDateTime creationTime, List<User> users, User creator) {
         this.id = id;
         this.name = name;
         this.users = users;
+        this.creationTime = creationTime;
+        this.creator = creator;
     }
 
     public List<User> getUsers() {
@@ -24,12 +28,22 @@ public class Team extends BaseEntity {
         this.users = users;
     }
 
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
-                "id=" + id +
+                "users=" + users +
+                ", creator=" + creator +
+                ", id=" + id +
                 ", name='" + name + '\'' +
-                ", users=" + users +
+                ", creationTime=" + creationTime +
                 '}';
     }
 
@@ -38,13 +52,12 @@ public class Team extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Objects.equals(id, team.id) &&
-                Objects.equals(name, team.name) &&
-                Objects.equals(users, team.users);
+        return Objects.equals(users, team.users) &&
+                Objects.equals(creator, team.creator);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, users);
+        return Objects.hash(users, creator);
     }
 }

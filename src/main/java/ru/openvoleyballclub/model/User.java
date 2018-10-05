@@ -1,47 +1,46 @@
 package ru.openvoleyballclub.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class User extends BaseEntity {
     private String login;
     private String password;
+    private String surname;
+    private LocalDate birthDay;
     private boolean isCaptain;
-    private String teamName;
+    private Team team;
+    private Role role;
 
     public User() {
+
     }
 
-    public User(Integer id, String name, String teamName, boolean isCaptain, String login) {
-        this.id = id;
-        this.name = name;
-        this.teamName = teamName;
-        this.isCaptain = isCaptain;
+    public User(String name, String surname, LocalDateTime creationTime, String login,
+                LocalDate birthDay, Role role, boolean isCaptain, Team team) {
+        this.creationTime = creationTime;
         this.login = login;
+        this.name = name;
+        this.surname = surname;
+        this.birthDay = birthDay;
+        this.role = role;
+        this.isCaptain = isCaptain;
+        this.team = team;
     }
 
-    public User(Integer id, String name, String teamName, boolean isCaptain, String login, String password) {
+    public User(Integer id, String name, String surname, LocalDateTime creationTime, String login, String password,
+                LocalDate birthDay, Role role, boolean isCaptain, Team team) {
         this.id = id;
-        this.name = name;
-        this.teamName = teamName;
-        this.isCaptain = isCaptain;
+        this.creationTime = creationTime;
         this.login = login;
         this.password = password;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public boolean isCaptain() {
-        return isCaptain;
-    }
-
-    public void setCaptain(boolean captain) {
-        isCaptain = captain;
+        this.name = name;
+        this.surname = surname;
+        this.birthDay = birthDay;
+        this.role = role;
+        this.isCaptain = isCaptain;
+        this.team = team;
     }
 
     public String getLogin() {
@@ -60,14 +59,59 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public LocalDate getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(LocalDate birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public boolean isCaptain() {
+        return isCaptain;
+    }
+
+    public void setCaptain(boolean captain) {
+        isCaptain = captain;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthDay=" + birthDay +
                 ", isCaptain=" + isCaptain +
-                ", teamName='" + teamName + '\'' +
+                ", team=" + team +
+                ", role=" + role +
                 ", id=" + id +
                 ", name='" + name + '\'' +
+                ", creationTime=" + creationTime +
                 '}';
     }
 
@@ -79,11 +123,14 @@ public class User extends BaseEntity {
         return isCaptain == user.isCaptain &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(teamName, user.teamName);
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(birthDay, user.birthDay) &&
+                Objects.equals(team, user.team) &&
+                role == user.role;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, isCaptain, teamName);
+        return Objects.hash(login, password, surname, birthDay, isCaptain, team, role);
     }
 }

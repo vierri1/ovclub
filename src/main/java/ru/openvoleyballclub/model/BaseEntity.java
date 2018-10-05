@@ -1,8 +1,15 @@
 package ru.openvoleyballclub.model;
 
+import java.time.LocalDateTime;
+
 public abstract class BaseEntity {
     protected Integer id;
     protected String name;
+    protected LocalDateTime creationTime;
+
+    public boolean isNew() {
+        return id == null;
+    }
 
     public Integer getId() {
         return id;
@@ -20,7 +27,11 @@ public abstract class BaseEntity {
         this.name = name;
     }
 
-    public boolean isNew() {
-        return id == null;
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 }
