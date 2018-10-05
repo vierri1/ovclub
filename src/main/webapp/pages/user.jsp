@@ -19,8 +19,9 @@
 </c:if>
 
 <c:if test="${user.captain}">
-    <br>Капитан команды ${user.teamName}<br><br>
+    <br>Капитан команды ${user.teamName}
 </c:if>
+<br><br>
 <p><a style="font-weight: bolder">Имя</a>: ${user.name}</p>
 <p><a style="font-weight: bolder">Команда: </a>${user.teamName}</p>
 <c:if test="${isLoggedUserPage == true}">

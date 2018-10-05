@@ -22,7 +22,6 @@
         <servlet-name>index</servlet-name>
         <servlet-class>ru.openvoleyballclub.controller.IndexServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>index</servlet-name>
         <url-pattern>/</url-pattern>

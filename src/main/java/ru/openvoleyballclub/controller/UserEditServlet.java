@@ -26,6 +26,7 @@ public class UserEditServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");
         if (name != null) {
             User user = (User) request.getSession().getAttribute("logged_user");
