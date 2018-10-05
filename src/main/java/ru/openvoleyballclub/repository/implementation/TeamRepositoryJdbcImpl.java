@@ -13,11 +13,10 @@ import java.util.List;
 public class TeamRepositoryJdbcImpl implements TeamRepository {
 
     private ConnectionManager connectionManager;
-    private UserRepository userRepository;
+    private static UserRepository userRepository;
 
     public TeamRepositoryJdbcImpl() {
         connectionManager = ConnectionManagerJdbcImpl.getInstance();
-        userRepository = new UserRepositoryJdbcImpl();
     }
 
     public TeamRepositoryJdbcImpl(ConnectionManager connectionManager) {
@@ -82,7 +81,7 @@ public class TeamRepositoryJdbcImpl implements TeamRepository {
                 if (resultSet.next()) {
                     team.setId(resultSet.getInt("id"));
                     team.setName(resultSet.getString("name"));
-                    team.setUsers(userRepository.getAllByTeamIdAndStatus(id, "in team"));
+                    //             team.setUsers(userRepository.getAllByTeamIdAndStatus(id, "in team"));
                     return team;
                 }
             }
@@ -101,10 +100,10 @@ public class TeamRepositoryJdbcImpl implements TeamRepository {
             try (ResultSet resultSet = getAll.executeQuery(getAllQuery)) {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
-                    teams.add(new Team(
-                            id,
-                            resultSet.getString("name"),
-                            userRepository.getAllByTeamIdAndStatus(id, "in team")));
+//                    teams.add(new Team(
+//                            id,
+//                            resultSet.getString("name"),
+//                            userRepository.getAllByTeamIdAndStatus(id, "in team")));
                 }
             }
             return teams;

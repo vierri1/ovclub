@@ -10,15 +10,16 @@ public class User extends BaseEntity {
     private String surname;
     private LocalDate birthDay;
     private boolean isCaptain;
-    private Team team;
+    private String team;
     private Role role;
 
     public User() {
 
     }
 
-    public User(String name, String surname, LocalDateTime creationTime, String login,
-                LocalDate birthDay, Role role, boolean isCaptain, Team team) {
+    public User(Integer id, String name, String surname, LocalDateTime creationTime, String login,
+                LocalDate birthDay, Role role, boolean isCaptain, String team) {
+        this.id = id;
         this.creationTime = creationTime;
         this.login = login;
         this.name = name;
@@ -30,7 +31,7 @@ public class User extends BaseEntity {
     }
 
     public User(Integer id, String name, String surname, LocalDateTime creationTime, String login, String password,
-                LocalDate birthDay, Role role, boolean isCaptain, Team team) {
+                LocalDate birthDay, Role role, boolean isCaptain, String team) {
         this.id = id;
         this.creationTime = creationTime;
         this.login = login;
@@ -83,11 +84,11 @@ public class User extends BaseEntity {
         isCaptain = captain;
     }
 
-    public Team getTeam() {
+    public String getTeam() {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(String team) {
         this.team = team;
     }
 

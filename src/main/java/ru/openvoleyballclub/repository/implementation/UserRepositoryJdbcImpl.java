@@ -1,6 +1,8 @@
 package ru.openvoleyballclub.repository.implementation;
 
 import org.apache.log4j.Logger;
+import ru.openvoleyballclub.model.Role;
+import ru.openvoleyballclub.model.Status;
 import ru.openvoleyballclub.model.User;
 import ru.openvoleyballclub.repository.connection_manager.ConnectionManager;
 import ru.openvoleyballclub.repository.connection_manager.ConnectionManagerJdbcImpl;
@@ -27,7 +29,9 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
     @Override
     public boolean add(User user) {
-        String usrInsertQuery = "INSERT INTO usr VALUES (DEFAULT, ?, false, ?, ?) RETURNING id";
+        String usrInsertQuery = "INSERT INTO usr " +
+                "(id, name, captain, password, login, surname, registration_time, birthday, role_id) " +
+                "VALUES (DEFAULT, ?, false, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement usrInsert = connection.prepareStatement(usrInsertQuery)) {
@@ -35,13 +39,13 @@ public class UserRepositoryJdbcImpl implements UserRepository {
                 return false;
             } else {
                 usrInsert.setString(1, user.getName());
-                usrInsert.setString(2, user.getLogin());
-                usrInsert.setString(3, user.getPassword());
-                try (ResultSet generatedKey = usrInsert.executeQuery()) {
-                    if (generatedKey.next()) {
-                        user.setId(generatedKey.getInt(1));
-                    }
-                }
+                usrInsert.setString(2, user.getPassword());
+                usrInsert.setString(3, user.getLogin());
+                usrInsert.setString(4, user.getSurname());
+                usrInsert.setTimestamp(5, Timestamp.valueOf(user.getCreationTime()));
+                usrInsert.setTimestamp(6, Timestamp.valueOf(user.getBirthDay().atStartOfDay()));
+                usrInsert.setInt(7, user.getRole().ordinal() + 1);
+                usrInsert.execute();
                 return true;
             }
         } catch (SQLException e) {
@@ -68,13 +72,16 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
     @Override
     public boolean update(User user) {
-        String usrUpdateQuery = "UPDATE usr SET name=?, captain=?, login=? WHERE id=?";
+        String usrUpdateQuery = "UPDATE usr SET name=?, captain=?, login=?, surname=?, birthday=?, role_id=? WHERE id=?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement usrUpdate = connection.prepareStatement(usrUpdateQuery)) {
             usrUpdate.setString(1, user.getName());
             usrUpdate.setBoolean(2, user.isCaptain());
             usrUpdate.setString(3, user.getLogin());
-            usrUpdate.setInt(4, user.getId());
+            usrUpdate.setString(4, user.getSurname());
+            usrUpdate.setTimestamp(5, Timestamp.valueOf(user.getBirthDay().atStartOfDay()));
+            usrUpdate.setInt(6, user.getRole().ordinal() + 1);
+            usrUpdate.setInt(7, user.getId());
             usrUpdate.execute();
             return true;
         } catch (SQLException e) {
@@ -86,21 +93,26 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
     @Override
     public User get(Integer id) {
-        String usrGetQuery = "SELECT u.id, u.name as userName, u.captain, u.login, u.password, t.name as teamName " +
-                "FROM ((user_team AS ut LEFT JOIN usr AS u ON u.id=ut.user_id)" +
-                "LEFT JOIN team AS t ON ut.team_id = t.id) WHERE u.id=?";
+        String usrGetQuery = "select usr.*, r.name as role, ut.team_id, t.name as team_name,\n" +
+                "       t.creation_time as team_creation_time from usr\n" +
+                "left join user_team ut on usr.id = ut.user_id and ut.status_id = 2\n" +
+                "left join team t on ut.team_id = t.id\n" +
+                "left join role r on usr.role_id = r.id\n" +
+                "where usr.id=?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement usrGet = connection.prepareStatement(usrGetQuery)) {
             usrGet.setInt(1, id);
-            User user = new User();
             try (ResultSet resultSet = usrGet.executeQuery()) {
                 if (resultSet.next()) {
-                    user.setId(resultSet.getInt("id"));
-                    user.setName(resultSet.getString("userName"));
-                    user.setCaptain(resultSet.getBoolean("captain"));
-                    user.setTeamName(resultSet.getString("teamName"));
-                    user.setLogin(resultSet.getString("login"));
-                    return user;
+                    return new User(resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("surname"),
+                            resultSet.getTimestamp("registration_time").toLocalDateTime(),
+                            resultSet.getString("login"),
+                            resultSet.getDate("birthday").toLocalDate(),
+                            Role.values()[resultSet.getInt("role_id") - 1],
+                            resultSet.getBoolean("captain"),
+                            resultSet.getString("team_name"));
                 }
             }
         } catch (SQLException e) {
@@ -112,20 +124,25 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        String usrGetAllQuery = "SELECT u.id, u.name as userName, u.captain, u.login, u.password, t.name as teamName " +
-                "FROM ((user_team AS ut LEFT JOIN usr AS u ON u.id=ut.user_id)" +
-                "LEFT JOIN team AS t ON ut.team_id = t.id)";
+        String usrGetAllQuery = "select usr.*, r.name as role, ut.team_id, t.name as team_name,\n" +
+                "       t.creation_time as team_creation_time from usr\n" +
+                "left join user_team ut on usr.id = ut.user_id\n" +
+                "left join team t on ut.team_id = t.id\n" +
+                "left join role r on usr.role_id = r.id";
         try (Connection connection = connectionManager.getConnection();
              Statement usrGetAll = connection.createStatement()) {
             List<User> users = new ArrayList<>();
             try (ResultSet resultSet = usrGetAll.executeQuery(usrGetAllQuery)) {
                 while (resultSet.next()) {
-                    User user = new User(resultSet.getInt("id"),
-                            resultSet.getString("userName"),
-                            resultSet.getString("teamName"),
+                    users.add(new User(resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("surname"),
+                            resultSet.getTimestamp("registration_time").toLocalDateTime(),
+                            resultSet.getString("login"),
+                            resultSet.getDate("birthday").toLocalDate(),
+                            Role.values()[resultSet.getInt("role_id") - 1],
                             resultSet.getBoolean("captain"),
-                            resultSet.getString("login"));
-                    users.add(user);
+                            resultSet.getString("team_name")));
                 }
             }
             return users;
@@ -137,24 +154,29 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getAllByTeamIdAndStatus(Integer teamId, String status) {
-        String usrGetAllQueryByTeamId = "SELECT u.id, u.name as userName, u.captain, u.login, u.password, t.name as teamName " +
-                "FROM (((user_team AS ut LEFT JOIN usr AS u ON u.id=ut.user_id)" +
-                "LEFT JOIN team AS t ON ut.team_id = t.id)" +
-                "INNER JOIN status AS st ON ut.status_id=st.id) WHERE t.id=? AND st.name=?";
+    public List<User> getAllByTeamIdAndStatusId(Integer teamId, Status status) {
+        String usrGetAllQueryByTeamId = "select usr.*, r.name as role, ut.team_id, t.name as team_name,\n" +
+                "       t.creation_time as team_creation_time from usr\n" +
+                "left join user_team ut on usr.id = ut.user_id and ut.status_id=?\n" +
+                "left join team t on ut.team_id = t.id\n" +
+                "left join role r on usr.role_id = r.id\n" +
+                "where t.id=?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement usrGetAllByTeamId = connection.prepareStatement(usrGetAllQueryByTeamId)) {
-            usrGetAllByTeamId.setInt(1, teamId);
-            usrGetAllByTeamId.setString(2, status);
+            usrGetAllByTeamId.setInt(1, status.ordinal() + 1);
+            usrGetAllByTeamId.setInt(2, teamId);
             try (ResultSet resultSet = usrGetAllByTeamId.executeQuery()) {
                 List<User> users = new ArrayList<>();
                 while (resultSet.next()) {
                     users.add(new User(resultSet.getInt("id"),
-                            resultSet.getString("userName"),
-                            resultSet.getString("teamName"),
-                            resultSet.getBoolean("captain"),
+                            resultSet.getString("name"),
+                            resultSet.getString("surname"),
+                            resultSet.getTimestamp("registration_time").toLocalDateTime(),
                             resultSet.getString("login"),
-                            resultSet.getString("password")));
+                            resultSet.getDate("birthday").toLocalDate(),
+                            Role.values()[resultSet.getInt("role_id") - 1],
+                            resultSet.getBoolean("captain"),
+                            resultSet.getString("team_name")));
                 }
                 return users;
             }
@@ -167,22 +189,26 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
     @Override
     public User getAuthUser(String login, String password) {
-        String usrGetQuery = "SELECT u.id, u.name as userName, u.captain, u.login, u.password, t.name as teamName " +
-                "FROM ((user_team AS ut LEFT JOIN usr AS u ON u.id=ut.user_id)" +
-                "LEFT JOIN team AS t ON ut.team_id = t.id) WHERE u.login=? AND u.password=?";
+        String usrGetQuery = "select usr.*, r.name as role, t.name as team_name from usr\n" +
+                "left join user_team ut on usr.id = ut.user_id and ut.status_id = 2\n" +
+                "left join team t on ut.team_id = t.id\n" +
+                "left join role r on usr.role_id = r.id\n" +
+                "where usr.login=? and usr.password=?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement usrGet = connection.prepareStatement(usrGetQuery)) {
             usrGet.setString(1, login);
             usrGet.setString(2, password);
-            User user = new User();
             try (ResultSet resultSet = usrGet.executeQuery()) {
                 if (resultSet.next()) {
-                    user.setId(resultSet.getInt("id"));
-                    user.setName(resultSet.getString("userName"));
-                    user.setCaptain(resultSet.getBoolean("captain"));
-                    user.setTeamName(resultSet.getString("teamName"));
-                    user.setLogin(resultSet.getString("login"));
-                    return user;
+                    return new User(resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("surname"),
+                            resultSet.getTimestamp("registration_time").toLocalDateTime(),
+                            resultSet.getString("login"),
+                            resultSet.getDate("birthday").toLocalDate(),
+                            Role.values()[resultSet.getInt("role_id") - 1],
+                            resultSet.getBoolean("captain"),
+                            resultSet.getString("team_name"));
                 }
             }
         } catch (SQLException e) {
