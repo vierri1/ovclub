@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS user_team;
 DROP TABLE IF EXISTS status;
 DROP TABLE IF EXISTS captain;
-DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS usr;
+DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS team;
 DROP SEQUENCE IF EXISTS usr_id_seq;
 DROP SEQUENCE IF EXISTS team_id_seq;
@@ -15,22 +15,22 @@ CREATE SEQUENCE status_id_seq;
 CREATE SEQUENCE usr_team_seq;
 
 
-create table if not exists team
+create table team
 (
   id            integer default nextval('team_id_seq' :: regclass) not null
     constraint team_pkey
     primary key,
   name          varchar(30),
-  creation_time timestamp
+  creation_time timestamp default now()
 );
 
 alter table team
   owner to postgres;
 
-create unique index if not exists team_name_uindex
+create unique index team_name_uindex
   on team (name);
 
-create table if not exists status
+create table status
 (
   id   integer default nextval('status_id_seq' :: regclass) not null
     constraint status_pkey
@@ -41,10 +41,10 @@ create table if not exists status
 alter table status
   owner to postgres;
 
-create unique index if not exists status_name_uindex
+create unique index status_name_uindex
   on status (name);
 
-create table if not exists role
+create table role
 (
   id   serial not null
     constraint role_pkey
@@ -55,7 +55,7 @@ create table if not exists role
 alter table role
   owner to postgres;
 
-create table if not exists usr
+create table usr
 (
   id                integer default nextval('usr_id_seq' :: regclass) not null
     constraint usr_pkey
@@ -65,7 +65,7 @@ create table if not exists usr
   password          varchar(50)                                       not null,
   login             varchar(40)                                       not null,
   surname           varchar(30),
-  registration_time timestamp,
+  registration_time timestamp default now(),
   birthday          timestamp,
   role_id           integer
     constraint usr_role_id_fk
@@ -75,10 +75,10 @@ create table if not exists usr
 alter table usr
   owner to postgres;
 
-create unique index if not exists usr_login_uindex
+create unique index usr_login_uindex
   on usr (login);
 
-create table if not exists user_team
+create table user_team
 (
   user_id   integer
     constraint user_team_user___fk

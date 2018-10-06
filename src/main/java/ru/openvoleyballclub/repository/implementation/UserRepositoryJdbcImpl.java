@@ -31,7 +31,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     public boolean add(User user) {
         String usrInsertQuery = "INSERT INTO usr " +
                 "(id, name, captain, password, login, surname, registration_time, birthday, role_id) " +
-                "VALUES (DEFAULT, ?, false, ?, ?, ?, ?, ?, ?)";
+                "VALUES (DEFAULT, ?, false, ?, ?, ?, default , ?, ?)";
 
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement usrInsert = connection.prepareStatement(usrInsertQuery)) {
@@ -42,9 +42,8 @@ public class UserRepositoryJdbcImpl implements UserRepository {
                 usrInsert.setString(2, user.getPassword());
                 usrInsert.setString(3, user.getLogin());
                 usrInsert.setString(4, user.getSurname());
-                usrInsert.setTimestamp(5, Timestamp.valueOf(user.getCreationTime()));
-                usrInsert.setTimestamp(6, Timestamp.valueOf(user.getBirthDay().atStartOfDay()));
-                usrInsert.setInt(7, user.getRole().ordinal() + 1);
+                usrInsert.setTimestamp(5, Timestamp.valueOf(user.getBirthDay().atStartOfDay()));
+                usrInsert.setInt(6, user.getRole().ordinal() + 1);
                 usrInsert.execute();
                 return true;
             }
