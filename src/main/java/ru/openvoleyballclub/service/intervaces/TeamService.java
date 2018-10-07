@@ -9,9 +9,19 @@ public interface TeamService {
 
     List<Team> getAll();
 
-    boolean create(Team team);
+    int create(Team team);
 
     boolean update(Team team);
 
     boolean delete(Integer id);
+
+    String joinTeam(String userId, String teamId);
+
+    String leaveTeam(String userId, String teamId);
+
+    String createTeam(String userId, String teamName);
+
+    String sendRequestToUser(String userId, String teamId);
+
+    String sendRequestToTeam(String userId, String teamId);
 }

@@ -1,9 +1,9 @@
 DELETE
 FROM user_team;
 DELETE
-FROM role;
-DELETE
 FROM usr;
+DELETE
+FROM role;
 DELETE
 FROM team;
 DELETE
@@ -32,7 +32,8 @@ VALUES ('Mr.Jenkins', true, '1', 'jenkins', 'Ivanov', now(), '1999-01-08', 1),
        ('Mr.Lombok', false, '5', 'lombok', 'Malov', now(), '1999-01-08', 1),
        ('Mr.Git', false, '6', 'git', 'Habov', now(), '1999-01-08', 1),
        ('Mr.Pattern', false, '7', 'pattern', 'Singletonov', now(), '1999-01-08', 1),
-       ('Mr.Random', false, '8', 'random', 'Sluchainov', now(), '1999-01-08', 1);
+       ('Mr.Random', false, '8', 'random', 'Sluchainov', now(), '1999-01-08', 1),
+       ('User', false, '9', 'user', 'Userov', now(), '1999-01-08', 1);
 
 
 INSERT INTO team (name, creation_time)

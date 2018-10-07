@@ -6,7 +6,7 @@ import ru.openvoleyballclub.model.Team;
 import java.util.List;
 
 public interface TeamRepository {
-    boolean add(Team team);
+    Integer add(Team team);
 
     boolean delete(Integer id);
 
@@ -15,6 +15,8 @@ public interface TeamRepository {
     Team get(Integer id);
 
     List<Team> getAll();
+
+    List<Team> getAllByUserId(Integer userId);
 
     List<Team> getAllByUserIdAndStatusId(Integer userId, Status status);
 

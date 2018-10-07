@@ -27,21 +27,24 @@ public class TeamRepositoryJdbcImpl implements TeamRepository {
     }
 
     @Override
-    public boolean add(Team team) {
-        String teamInsertQuery = "INSERT INTO team VALUES (default, ?, default)";
+    public Integer add(Team team) {
+        String teamInsertQuery = "INSERT INTO team VALUES (default, ?, default) RETURNING id";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement teamInsert = connection.prepareStatement(teamInsertQuery)) {
             if (!team.isNew()) {
-                return false;
+                return -1;
             } else {
                 teamInsert.setString(1, team.getName());
-                teamInsert.execute();
-                return true;
+                try (ResultSet resultSet = teamInsert.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getInt("id");
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -101,6 +104,31 @@ public class TeamRepositoryJdbcImpl implements TeamRepository {
              Statement getAll = connection.createStatement()) {
             List<Team> teams = new ArrayList<>();
             try (ResultSet resultSet = getAll.executeQuery(getAllQuery)) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    teams.add(new Team(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getTimestamp("creation_time").toLocalDateTime(),
+                            userRepository.getAllByTeamIdAndStatusId(id, Status.IN_TEAM)));
+                }
+            }
+            return teams;
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Team> getAllByUserId(Integer userId) {
+        String getAllQuery = "select * from team\n" +
+                "inner join user_team ut on team.id = ut.team_id and user_id=?";
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(getAllQuery)) {
+            statement.setInt(1, userId);
+            List<Team> teams = new ArrayList<>();
+            try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     teams.add(new Team(
