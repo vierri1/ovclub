@@ -107,4 +107,13 @@
         <servlet-name>createTeam</servlet-name>
         <url-pattern>/logged/create_team</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>leaveTeam</servlet-name>
+        <servlet-class>ru.openvoleyballclub.controller.LeaveTeamServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>leaveTeam</servlet-name>
+        <url-pattern>/logged/leave_team</url-pattern>
+    </servlet-mapping>
 </web-app>

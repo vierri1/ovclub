@@ -15,4 +15,7 @@
         <li><a href="/user?id=${user.id}">${user.name}</a> ${user.captain ? "(cap)" : ""}</li>
     </c:forEach>
 </ui>
+<c:if test="${logged_user != null && logged_user.team == team.name}">
+    <a href="/logged/leave_team?id=${team.id}">Покинуть команду</a>
+</c:if>
 <%@include file="/fragments/footer.jsp" %>
