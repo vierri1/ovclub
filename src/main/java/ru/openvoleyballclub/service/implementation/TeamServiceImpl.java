@@ -81,19 +81,15 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public String leaveTeam(String userId, String teamId) {
-        if (checkUserIdTeamId(userId, teamId)) {
-            return "Ошибка получения данных";
-        }
-        Integer id = Integer.parseInt(userId);
-        Integer tId = Integer.parseInt(teamId);
-        User user = userRepository.get(id);
-        if (user == null) {
+    public String leaveTeam(User user, String teamId) {
+        if (teamId == null && user == null) {
             return "Ошибка получения данных";
         }
         if (user.isCaptain()) {
             return "Капитан не может покинуть команду!";
         }
+        Integer tId = Integer.parseInt(teamId);
+        Integer id = user.getId();
         List<Team> teams = teamRepository.getAllByUserIdAndStatusId(id, Status.IN_TEAM);
         Team team;
         if (teams.isEmpty()) {
@@ -105,6 +101,7 @@ public class TeamServiceImpl implements TeamService {
             }
         }
         if (teamRepository.updateUserTeamStatus(id, tId, Status.LEAVE_TEAM)) {
+            user.setTeam(null);
             return "Пользователь " + user.getName() + " успешно покинул команду " + team.getName() + "!";
         }
         return "Ошибка выхода из команды " + team.getName() + "!";

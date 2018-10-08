@@ -18,7 +18,7 @@ public interface TeamService {
 
     String joinTeam(String userId, String teamId);
 
-    String leaveTeam(String userId, String teamId);
+    String leaveTeam(User user, String teamId);
 
     String createTeam(User user, String teamName);
 

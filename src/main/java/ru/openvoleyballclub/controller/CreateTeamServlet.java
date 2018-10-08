@@ -25,7 +25,7 @@ public class CreateTeamServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("logged_user");
         String teamName = request.getParameter("name");
         String message = teamService.createTeam(user, teamName);
-        if (message.equals("Команда " + teamName + " успешно создана!")) {
+        if (message != null && message.equals("Команда " + teamName + " успешно создана!")) {
             response.sendRedirect("/logged/my_team?mess=team_created");
         } else {
             request.setAttribute("create_message", message);

@@ -6,6 +6,9 @@
     <a href="/logged/join_team?id=${team.id}">Вступить в команду</a>
 </c:if>
 
+<c:if test="${leave_message != null}">
+    <p>${leave_message}</p>
+</c:if>
 <c:if test="${'team_created'.equals(param.mess)}">
     <p>Поздравляем, команда успешно создана!</p>
 </c:if>
