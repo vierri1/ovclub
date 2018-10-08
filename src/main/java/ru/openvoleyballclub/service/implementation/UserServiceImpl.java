@@ -1,5 +1,6 @@
 package ru.openvoleyballclub.service.implementation;
 
+import ru.openvoleyballclub.model.Team;
 import ru.openvoleyballclub.model.User;
 import ru.openvoleyballclub.repository.implementation.UserRepositoryJdbcImpl;
 import ru.openvoleyballclub.repository.interfaces.UserRepository;
@@ -59,6 +60,16 @@ public class UserServiceImpl implements UserService {
             if (user != null) {
                 return user;
             }
+        }
+        return null;
+    }
+
+    @Override
+    public User getCaptain(Team team) {
+        if (team != null) {
+            return team.getUsers().stream()
+                    .filter(User::isCaptain)
+                    .findFirst().orElse(null);
         }
         return null;
     }

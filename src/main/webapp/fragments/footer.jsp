@@ -10,10 +10,9 @@
 </div><!-- .container-->
 
 <aside class="left-sidebar">
-    <h1 style="font-weight: bolder">Список команд:</h1>
-    <c:forEach var="team" items="${teams}">
-        <a href="/team?id=${team.id}">${team.name}</a> <br>
-    </c:forEach>
+    <p><a href="/logged/my_page">Моя страница</a></p>
+    <p><a href="/logged/my_team">Моя команда</a></p>
+    <p><a href="/all_teams">Список команд</a></p>
 </aside>
 </div><!-- .middle-->
 

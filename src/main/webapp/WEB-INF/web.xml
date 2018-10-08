@@ -71,4 +71,22 @@
         <servlet-name>myPage</servlet-name>
         <url-pattern>/logged/my_page</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>myTeam</servlet-name>
+        <servlet-class>ru.openvoleyballclub.controller.MyTeamServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>myTeam</servlet-name>
+        <url-pattern>/logged/my_team</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>teams</servlet-name>
+        <servlet-class>ru.openvoleyballclub.controller.AllTeamsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>teams</servlet-name>
+        <url-pattern>/all_teams</url-pattern>
+    </servlet-mapping>
 </web-app>

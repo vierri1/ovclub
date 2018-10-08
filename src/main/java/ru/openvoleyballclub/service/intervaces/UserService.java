@@ -1,5 +1,6 @@
 package ru.openvoleyballclub.service.intervaces;
 
+import ru.openvoleyballclub.model.Team;
 import ru.openvoleyballclub.model.User;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface UserService {
     boolean delete(Integer id);
 
     User getAuthUser(String login, String password);
+
+    User getCaptain(Team team);
 }

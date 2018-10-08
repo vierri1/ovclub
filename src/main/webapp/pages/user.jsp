@@ -19,11 +19,14 @@
 </c:if>
 
 <c:if test="${user.captain}">
-    <br>Капитан команды ${user.teamName}
+    <br>Капитан команды ${user.team}
 </c:if>
 <br><br>
 <p><a style="font-weight: bolder">Имя</a>: ${user.name}</p>
-<p><a style="font-weight: bolder">Команда: </a>${user.teamName}</p>
+<p><a style="font-weight: bolder">Фамилия</a>: ${user.surname}</p>
+<p><a style="font-weight: bolder">Команда: </a>${user.team}</p>
+<p><a style="font-weight: bolder">Дата рождения: </a>${user.birthDay}</p>
+
 <c:if test="${isLoggedUserPage == true}">
     <a href="/logged/user_edit">Редактировать</a>
 </c:if>
