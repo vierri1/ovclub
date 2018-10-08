@@ -17,17 +17,13 @@ public class User extends BaseEntity {
 
     }
 
+    public User(String name, String surname, String login, String password, LocalDate birthDay, Role role) {
+        this(null, name, surname, null, login, password, birthDay, role, false, null);
+    }
+
     public User(Integer id, String name, String surname, LocalDateTime creationTime, String login,
                 LocalDate birthDay, Role role, boolean isCaptain, String team) {
-        this.id = id;
-        this.creationTime = creationTime;
-        this.login = login;
-        this.name = name;
-        this.surname = surname;
-        this.birthDay = birthDay;
-        this.role = role;
-        this.isCaptain = isCaptain;
-        this.team = team;
+        this(id, name, surname, creationTime, login, null, birthDay, role, isCaptain, team);
     }
 
     public User(Integer id, String name, String surname, LocalDateTime creationTime, String login, String password,

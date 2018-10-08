@@ -1,11 +1,14 @@
 package ru.openvoleyballclub.service.implementation;
 
+import ru.openvoleyballclub.model.Role;
 import ru.openvoleyballclub.model.Team;
 import ru.openvoleyballclub.model.User;
 import ru.openvoleyballclub.repository.implementation.UserRepositoryJdbcImpl;
 import ru.openvoleyballclub.repository.interfaces.UserRepository;
 import ru.openvoleyballclub.service.intervaces.UserService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -34,8 +37,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean create(User user) {
-        return userRepository.add(user);
+    public boolean create(String name, String surname, String login, String password, String birthDay) {
+        if (name != null && surname != null && login != null && password != null && birthDay != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+
+            LocalDate birthDayLocalDate = LocalDate.parse(birthDay, formatter);
+            //TODO Сделать хеширование пароля
+            User newUser = new User(name, surname, login, password, birthDayLocalDate, Role.PLAYER);
+            return userRepository.add(newUser);
+        } else {
+            return false;
+        }
     }
 
     @Override

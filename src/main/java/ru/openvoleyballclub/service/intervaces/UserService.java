@@ -10,7 +10,7 @@ public interface UserService {
 
     List<User> getAll();
 
-    boolean create(User user);
+    boolean create(String name, String surname, String login, String password, String birthDay);
 
     boolean update(User user);
 

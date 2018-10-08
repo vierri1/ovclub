@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Andrey
-  Date: 04.10.2018
-  Time: 19:05
-  To change this template use File | Settings | File Templates.
---%>
 <%@include file="/fragments/header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 

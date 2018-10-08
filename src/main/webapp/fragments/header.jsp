@@ -28,7 +28,8 @@
         </c:if>
         <c:if test="${logged_user == null}">
             <p>Приветсвую тебя, Гость!</p>
-            <p style="width: 50%;text-align: right;float: right;"><a href="/login">Войти</a></p>
+            <p style="width: 5%;text-align: right;float: right;"><a href="/login">Войти</a></p>
+            <p style="width: 95%;text-align: right;float: right;"><a href="/registration">Регистрация</a></p>
         </c:if>
         <%--<p style="width: 50%;display: inline-block;float: left;width: 50%;"><a href="/logged/my_page">Моя страница</a></p>--%>
     </header><!-- .header-->
