@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
     public boolean create(String name, String surname, String login, String password, String birthDay) {
         if (name != null && surname != null && login != null && password != null && birthDay != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-
             LocalDate birthDayLocalDate = LocalDate.parse(birthDay, formatter);
             //TODO Сделать хеширование пароля
             User newUser = new User(name, surname, login, password, birthDayLocalDate, Role.PLAYER);

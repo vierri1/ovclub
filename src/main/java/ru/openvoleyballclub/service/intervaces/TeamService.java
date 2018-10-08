@@ -24,4 +24,6 @@ public interface TeamService {
     String sendRequestToUser(String userId, String teamId);
 
     String sendRequestToTeam(String userId, String teamId);
+
+    Team getCurrentUserTeam(Integer userId);
 }

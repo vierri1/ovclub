@@ -15,8 +15,8 @@
 </c:if>
 <p style="font-weight: bold">Введите Ваши данные:</p>
 <form action="/login" method="post">
-    <label style="font-weight: bold">Логин: <input name="login" type="text"/></label><br>
-    <label style="font-weight: bold">Пароль: <input name="password" type="password"/></label>
+    <label style="font-weight: bold">Логин: <input required name="login" type="text"/></label><br>
+    <label style="font-weight: bold">Пароль: <input required name="password" type="password"/></label>
     <input type="submit" value="Войти"/>
 </form>
 <%@include file="/fragments/footer.jsp" %>

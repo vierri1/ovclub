@@ -2,6 +2,9 @@
 <%@include file="/fragments/header.jsp" %>
 <strong style="font-weight: bold">Страница команды ${team.name}</strong>
 <p><span style="font-weight: bold">Капитан команды:</span> <a href="/user?id=${captain.id}">${captain.name}</a></p>
+<c:if test="${logged_user != null && logged_user.team != team.name}">
+    <a href="/logged/join_team?id=${team.id}">Вступить в команду</a>
+</c:if>
 <ui>
     <p>Список участников: </p>
     <c:forEach var="user" items="${team.users}">

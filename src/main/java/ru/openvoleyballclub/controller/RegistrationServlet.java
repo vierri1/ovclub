@@ -31,7 +31,7 @@ public class RegistrationServlet extends HttpServlet {
         if (isCreated) {
             response.sendRedirect("/logged/my_page");
         } else {
-            request.getRequestDispatcher("/registration?err=err_registration");
+            response.sendRedirect("/registration?err=err_registration");
         }
     }
 

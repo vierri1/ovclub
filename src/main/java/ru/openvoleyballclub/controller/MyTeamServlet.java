@@ -31,7 +31,7 @@ public class MyTeamServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("logged_user");
-        Team team = teamService.getById(String.valueOf(user.getId()));
+        Team team = teamService.getCurrentUserTeam(user.getId());
         request.setAttribute("captain", userService.getCaptain(team));
         request.setAttribute("team", team);
         request.getRequestDispatcher("/pages/team.jsp").forward(request, response);

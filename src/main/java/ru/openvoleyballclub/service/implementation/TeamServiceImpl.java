@@ -202,8 +202,9 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.get(Integer.parseInt(teamId));
     }
 
-    private Team getCurrentUserTeam(Integer id) {
-        List<Team> teams = teamRepository.getAllByUserIdAndStatusId(id, Status.IN_TEAM);
+    @Override
+    public Team getCurrentUserTeam(Integer userId) {
+        List<Team> teams = teamRepository.getAllByUserIdAndStatusId(userId, Status.IN_TEAM);
         if (!teams.isEmpty()) {
             return teams.get(0);
         }
