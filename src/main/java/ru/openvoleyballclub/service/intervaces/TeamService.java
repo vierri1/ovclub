@@ -1,6 +1,7 @@
 package ru.openvoleyballclub.service.intervaces;
 
 import ru.openvoleyballclub.model.Team;
+import ru.openvoleyballclub.model.User;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface TeamService {
 
     String leaveTeam(String userId, String teamId);
 
-    String createTeam(String userId, String teamName);
+    String createTeam(User user, String teamName);
 
     String sendRequestToUser(String userId, String teamId);
 

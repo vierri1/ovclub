@@ -111,24 +111,23 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public String createTeam(String userId, String teamName) {
-        if (userId == null || teamName == null) {
+    public String createTeam(User creator, String teamName) {
+        if (teamName == null) {
             return "Введите название команды!";
         }
-        Integer id = Integer.parseInt(userId);
-        Team team = getCurrentUserTeam(id);
+        Team team = getCurrentUserTeam(creator.getId());
         if (team != null) {
             return "Невозможно создать команду, так как Вы уже состоите в команде " + team.getName() + "!";
         }
-        User creator = userRepository.get(id);
         Team createdTeam = new Team(teamName, Arrays.asList(creator));
         int newTeamId = teamRepository.add(createdTeam);
         if (newTeamId == -1) {
             return "Команда с именем " + teamName + " уже существует!";
         }
         creator.setCaptain(true);
+        creator.setTeam(createdTeam.getName());
         userRepository.update(creator);
-        teamRepository.setUserTeamStatus(id, newTeamId, Status.IN_TEAM);
+        teamRepository.setUserTeamStatus(creator.getId(), newTeamId, Status.IN_TEAM);
         return "Команда " + teamName + " успешно создана!";
     }
 

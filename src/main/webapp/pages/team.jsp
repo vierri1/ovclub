@@ -5,6 +5,10 @@
 <c:if test="${logged_user != null && logged_user.team != team.name}">
     <a href="/logged/join_team?id=${team.id}">Вступить в команду</a>
 </c:if>
+
+<c:if test="${'team_created'.equals(param.mess)}">
+    <p>Поздравляем, команда успешно создана!</p>
+</c:if>
 <ui>
     <p>Список участников: </p>
     <c:forEach var="user" items="${team.users}">
