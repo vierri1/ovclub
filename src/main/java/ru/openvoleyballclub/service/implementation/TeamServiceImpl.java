@@ -120,6 +120,7 @@ public class TeamServiceImpl implements TeamService {
             return "Невозможно создать команду, так как Вы уже состоите в команде " + team.getName() + "!";
         }
         Team createdTeam = new Team(teamName, Arrays.asList(creator));
+        //TODO КАК ОРГАНИЗОВАТЬ ТРАНЗАКЦИОННОСТЬ ДЛЯ АТОМАРНОСТИ ТРЕХ ЗАПИСЕЙ В ТАБЛИЦУ?
         int newTeamId = teamRepository.add(createdTeam);
         if (newTeamId == -1) {
             return "Команда с именем " + teamName + " уже существует!";
